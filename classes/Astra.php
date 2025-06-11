@@ -122,7 +122,7 @@ class Astra {
 		);
 
 		/* Set clickable phone number in the header. */
-		$astra_settings['header-html-1'] = '<h5><a href="tel:' . esc_attr( $parameters['phone'] ) . '">' . esc_html( $parameters['phone'] ) . '</a></h5>';
+		$astra_settings['header-html-1'] = '<h5><a style="color: ' $parameters['colorPalette']['heading'] '" href="tel:' . esc_attr( $parameters['phone'] ) . '">' . esc_html( $parameters['phone'] ) . '</a></h5>';
 
 		/* Set default footer copyright. */
 		$astra_settings['footer-copyright-editor'] = 'Copyright [copyright] [current_year] [site_title] | Powered by [site_title]';
