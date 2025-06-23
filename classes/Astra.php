@@ -63,6 +63,8 @@ class Astra {
 		/* Get all request parameters. */
 		$parameters = $request->get_params();
 
+		$get_design = $parameters['design'] ?? '1';
+
 		/* Validate required parameters. */
 		if ( empty( $parameters['colorPalette'] ) ) {
 			return new \WP_Error( 'no_color_palette', 'A color palette is required.', array( 'status' => 400 ) );
@@ -126,6 +128,11 @@ class Astra {
 
 		/* Set default footer copyright. */
 		$astra_settings['footer-copyright-editor'] = 'Copyright [copyright] [current_year] [site_title] | Powered by [site_title]';
+
+		if ($get_design === '2') {
+			/* Set footer layout for design 1. */
+			$astra_settings['footer-copyright-colore'] = 'var(--ast-global-color-4)'
+		}
 
 		/* Save updated settings. */
 		update_option( 'astra-settings', $astra_settings );
