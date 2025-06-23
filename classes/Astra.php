@@ -131,7 +131,7 @@ class Astra {
 
 		if ($get_design === '2') {
 			/* Set footer layout for design 1. */
-			$astra_settings['footer-copyright-colore'] = 'var(--ast-global-color-4)'
+			$astra_settings['footer-copyright-colore'] = 'var(--ast-global-color-4)';
 		}
 
 		/* Save updated settings. */
