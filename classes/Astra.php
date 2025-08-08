@@ -54,10 +54,10 @@ class Astra {
 			'custom/v1',
 			'/autowp/theme/astra/',
 			array(
-				'methods' => 'GET',
-				'callback' => () => {
-					return rest_ensure_response( [ 'message' => 'We have reached the Astra endpoint.' ] );
-				},
+				'methods'  => 'GET',
+				'callback' => fn() => rest_ensure_response([
+					'message' => 'We have reached the Astra endpoint.'
+				]),
 			)
 		);
 
