@@ -50,6 +50,17 @@ class Astra {
 			)
 		);
 
+		register_rest_route(
+			'custom/v1',
+			'/autowp/theme/astra/',
+			array(
+				'methods' => 'GET',
+				'callback' => () => {
+					return rest_ensure_response( [ 'message' => 'We have reached the Astra endpoint.' ] );
+				},
+			)
+		);
+
 	} /* register_rest_api() */
 
 	/**
