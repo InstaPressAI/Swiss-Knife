@@ -29,6 +29,9 @@ class Security {
 		/* Remove the WordPress version meta tag from the <head> section. */
 		remove_action( 'wp_head', 'wp_generator' );
 
+		/* Add InstaPressAI Meta. */
+		add_action( 'wp_head', [ $this, 'add_meta' ] );
+
 		/* Disable XML-RPC to prevent remote connections (which can be a security risk). */
 		add_filter( 'xmlrpc_enabled', '__return_false' );
 
@@ -47,5 +50,18 @@ class Security {
 		return '';
 
 	} /* wp_remove_version() */
+
+	/**
+	 * Add InstaPressAI Meta.
+	 */
+	public function add_meta() {
+
+		 ?>
+		<meta name="buildwith" content="intapress-ai" />
+		<meta name="buildwith-author" content="Asif Iqbal" />
+		<meta name="buildwith-author-url" content="https://adommo.com" />
+		<?php
+
+	} /* add_meta() */
 
 } /* Security() */
