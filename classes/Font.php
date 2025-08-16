@@ -48,6 +48,11 @@ class Font {
 		$get_font_size = get_option( 'ask_logo_font_size' );
 
 		$custom_css = "
+			.site-header {
+				position: sticky;
+				top: 0;
+				z-index: 999;
+			}
 			.site-title a {
 				font-family: '{$get_font_family}';
 				font-size: {$get_font_size};
