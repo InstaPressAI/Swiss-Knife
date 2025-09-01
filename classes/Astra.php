@@ -124,7 +124,10 @@ class Astra {
 		);
 
 		/* Set clickable phone number in the header. */
-		$astra_settings['header-html-1'] = '<h5><a style="color: ' . $parameters['colorPalette'][2] . '" href="tel:+1' . esc_attr( $parameters['phone'] ) . '">' . esc_html( $parameters['phone'].replace(/[\s-]/g, "") ) . '</a></h5>';
+		$clean_phone = preg_replace('/[\s-]/', '', $parameters['phone']);
+
+		$astra_settings['header-html-1'] = '<h5><a style="color: ' . esc_attr( $parameters['colorPalette'][2] ) . '" href="tel:+1' . esc_attr( $clean_phone ) . '">' . esc_html( $parameters['phone'] ) . '</a></h5>';
+
 
 		/* Set default footer copyright. */
 		$astra_settings['footer-copyright-editor'] = 'Copyright [copyright] [current_year] [site_title] | Powered by [site_title]';
