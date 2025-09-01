@@ -25,27 +25,21 @@ class Font {
 	 * @access private
 	 */
 	private function plugables() {
-
 		add_action( 'wp_enqueue_scripts', [ $this, 'fonts' ] );
-
 		add_action( 'wp_enqueue_scripts', [ $this, 'inline_styles' ] );
-
+		add_action( 'wp_enqueue_scripts', [ $this, 'inline_scripts' ] ); // 🔥 added
 	} /* plugables() */
 
-
 	public function fonts() {
-
 		wp_enqueue_style(
 			'autowp-swiss-knife-fonts',
 			plugin_dir_url( __FILE__ ) . '../assets/css/fonts.css'
 		);
-
 	} /* fonts() */
-
 
 	public function inline_styles() {
 		$get_font_family = get_option( 'ask_logo_font_family' );
-		$get_font_size = get_option( 'ask_logo_font_size' );
+		$get_font_size   = get_option( 'ask_logo_font_size' );
 
 		$custom_css = "
 			.site-header {
@@ -62,9 +56,10 @@ class Font {
 				.site-header-section {
 					width: 150px;
 				}
-				.site-title {
+				.site-title a {
 					font-size: 24px;
 				}
+			}
 		";
 
 		wp_register_style( 'autowp-swiss-knife-inline-css', false );
@@ -73,4 +68,47 @@ class Font {
 
 	} /* inline_styles() */
 
-} /* Font() */
+	public function inline_scripts() {
+		$custom_js = '
+			document.addEventListener("DOMContentLoaded", function () {
+				const headerRight = document.querySelector(
+					".site-header-primary-section-right.site-header-section"
+				);
+				let lastScrollTop = 0;
+
+				window.addEventListener("scroll", function () {
+					if (window.innerWidth < 921) {
+						let scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+						// Scrolling down past 200px → hide
+						if (scrollTop > lastScrollTop && scrollTop > 200) {
+							headerRight.style.display = "none";
+						}
+
+						// Scrolling up above 200px → show
+						else if (scrollTop < lastScrollTop && scrollTop > 200) {
+							headerRight.style.display = "block";
+						}
+
+						// Reset if near top
+						else if (scrollTop <= 200) {
+							headerRight.style.display = "block";
+						}
+
+						lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // avoid negative
+					} else {
+						// Always visible on desktop
+						headerRight.style.display = "block";
+					}
+				});
+			});
+		';
+
+		// Register a dummy script handle
+		wp_register_script( 'autowp-swiss-knife-inline-js', '', [], false, true );
+		wp_enqueue_script( 'autowp-swiss-knife-inline-js' );
+		wp_add_inline_script( 'autowp-swiss-knife-inline-js', $custom_js );
+	} /* inline_scripts() */
+
+
+} /* Font */
