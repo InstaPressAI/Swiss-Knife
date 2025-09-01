@@ -83,27 +83,32 @@ class Font {
 					"#ast-desktop-header .site-header-primary-section-right .ast-builder-html-element"
 				)
 
-				if (!mobileHeaderRight || !mobileHeaderRightBtn) return
+				if (!mobileHeaderRight || !mobileHeaderRightBtn || !desktopPhoneBlock) return
 
 				if (window.innerWidth <= 921) {
 					if (window.scrollY <= 100) {
+						// Show the mobile button, remove any injected phone
 						mobileHeaderRightBtn.style.display = "flex"
 
-						const phoneBlock = mobileHeaderRight.querySelector(".ast-builder-html-element")
-						if (phoneBlock) {
-							phoneBlock.parentElement.remove()
-						} else {
-							mobileHeaderRightBtn.style.display = "none"
+						const phoneBlock = mobileHeaderRight.querySelector(".ast-builder-html-element");
+						if (phoneBlock) phoneBlock.parentElement.remove()
+					} else {
+						mobileHeaderRightBtn.style.display = "none"
 
-							if (!mobileHeaderRight.querySelector(".ast-builder-html-element")) {
-								mobileHeaderRight.insertAdjacentHTML(
-									"afterbegin",
-									desktopPhoneBlock.innerHTML
-								)
-							}
+						if (!mobileHeaderRight.querySelector(".ast-builder-html-element")) {
+							mobileHeaderRight.insertAdjacentHTML(
+							"afterbegin",
+							`
+							<div class="ast-header-html inner-link-style-">
+								${desktopPhoneBlock.outerHTML}
+							</div>
+							`
+							)
+						}
 					}
 				}
 			})
+
 		';
 
 		// Register a dummy script handle
