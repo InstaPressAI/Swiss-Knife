@@ -57,6 +57,14 @@ class Font {
 				font-family: '{$get_font_family}';
 				font-size: {$get_font_size};
 			}
+
+			@media (max-width: 921px) {
+				.site-header-section {
+					width: 150px;
+				}
+				.site-title {
+					font-size: 24px;
+				}
 		";
 
 		wp_register_style( 'autowp-swiss-knife-inline-css', false );
