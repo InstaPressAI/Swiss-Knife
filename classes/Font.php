@@ -70,38 +70,40 @@ class Font {
 
 	public function inline_scripts() {
 		$custom_js = '
-			document.addEventListener("DOMContentLoaded", function () {
-				const headerRight = document.querySelector(
-					".site-header-primary-section-right.site-header-section"
-				);
-				let lastScrollTop = 0;
+			window.addEventListener("scroll", function () {
+				const mobileHeaderRight = document.querySelector(
+					"#ast-mobile-header .site-header-primary-section-right"
+				)
 
-				window.addEventListener("scroll", function () {
-					if (window.innerWidth < 921) {
-						let scrollTop = window.scrollY || document.documentElement.scrollTop;
+				const mobileHeaderRightBtn = document.querySelector(
+					"#ast-mobile-header .site-header-primary-section-right .ast-button-wrap"
+				)
 
-						// Scrolling down past 200px → hide
-						if (scrollTop > lastScrollTop && scrollTop > 200) {
-							headerRight.style.display = "none";
-						}
+				const desktopPhoneBlock = document.querySelector(
+					"#ast-desktop-header .site-header-primary-section-right .ast-builder-html-element"
+				)
 
-						// Scrolling up above 200px → show
-						else if (scrollTop < lastScrollTop && scrollTop > 200) {
-							headerRight.style.display = "block";
-						}
+				if (!mobileHeaderRight || !mobileHeaderRightBtn) return
 
-						// Reset if near top
-						else if (scrollTop <= 200) {
-							headerRight.style.display = "block";
-						}
+				if (window.innerWidth <= 921) {
+					if (window.scrollY <= 100) {
+						mobileHeaderRightBtn.style.display = "flex"
 
-						lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // avoid negative
-					} else {
-						// Always visible on desktop
-						headerRight.style.display = "block";
+						const phoneBlock = mobileHeaderRight.querySelector(".ast-builder-html-element")
+						if (phoneBlock) {
+							phoneBlock.parentElement.remove()
+						} else {
+							mobileHeaderRightBtn.style.display = "none"
+
+							if (!mobileHeaderRight.querySelector(".ast-builder-html-element")) {
+								mobileHeaderRight.insertAdjacentHTML(
+									"afterbegin",
+									desktopPhoneBlock.innerHTML
+								)
+							}
 					}
-				});
-			});
+				}
+			})
 		';
 
 		// Register a dummy script handle
